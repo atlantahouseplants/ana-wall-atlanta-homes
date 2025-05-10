@@ -4,6 +4,10 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PropertyCard from '@/components/PropertyCard';
 import HomeValueForm from '@/components/HomeValueForm';
+import VirtualTourScheduler from '@/components/VirtualTourScheduler';
+import ToolsSection from '@/components/ToolsSection';
+import MarketReportsSection from '@/components/MarketReportsSection';
+import FaqSection from '@/components/FaqSection';
 import { heroBackground, propertyImages, agentProfile } from '@/assets/images';
 import { Button } from '@/components/ui/button';
 
@@ -157,6 +161,39 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Virtual Tour Scheduler Section */}
+      <section id="virtual-tour" className="py-16 md:py-24 bg-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <VirtualTourScheduler />
+            </div>
+            <div className="order-first lg:order-last">
+              <img 
+                src={propertyImages[1]} 
+                alt="Virtual Tour" 
+                className="rounded-xl shadow-lg object-cover h-96 w-full"
+              />
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <img 
+                  src={propertyImages[0]} 
+                  alt="Property Interior" 
+                  className="rounded-xl shadow-lg object-cover h-48"
+                />
+                <img 
+                  src={propertyImages[2]} 
+                  alt="Property Exterior" 
+                  className="rounded-xl shadow-lg object-cover h-48"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Market Reports Section */}
+      <MarketReportsSection />
+
       {/* About Section */}
       <section id="about" className="py-16 md:py-24 bg-white">
         <div className="container-custom">
@@ -186,6 +223,12 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FaqSection />
+      
+      {/* Tools Section - Mortgage Calculator & Guide Downloads */}
+      <ToolsSection />
       
       {/* Testimonials Section */}
       <section className="py-16 md:py-24 bg-navy text-white">
