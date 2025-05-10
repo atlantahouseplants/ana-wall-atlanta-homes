@@ -13,4 +13,5 @@ export const propertyImages = [
 export const heroBackground = "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1974";
 
 // Agent Profile Image
-export const agentProfile = "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e";
+export const agentProfile = "public/lovable-uploads/aa56907d-3bb5-47e2-b860-47f38c1828ca.png";
+

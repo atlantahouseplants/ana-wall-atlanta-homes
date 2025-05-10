@@ -3,6 +3,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PropertyCard from '@/components/PropertyCard';
+import HomeValueForm from '@/components/HomeValueForm';
 import { heroBackground, propertyImages, agentProfile } from '@/assets/images';
 import { Button } from '@/components/ui/button';
 
@@ -88,6 +89,48 @@ const Index = () => {
           <a href="#properties" className="btn-primary text-lg px-8 py-3 animate-fade-up">
             {t('hero.cta')}
           </a>
+        </div>
+      </section>
+
+      {/* Lead Magnet - Home Value Section */}
+      <section id="home-value" className="py-16 md:py-24 bg-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="section-title mb-4">{t('homeValue.sectionTitle')}</h2>
+              <p className="section-subtitle">{t('homeValue.sectionSubtitle')}</p>
+              <div className="text-gray-700 mb-6 space-y-4">
+                <p>{t('homeValue.description')}</p>
+                <div className="flex items-center gap-4 text-navy">
+                  <div className="bg-gold/20 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span>{t('homeValue.benefit1')}</span>
+                </div>
+                <div className="flex items-center gap-4 text-navy">
+                  <div className="bg-gold/20 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span>{t('homeValue.benefit2')}</span>
+                </div>
+                <div className="flex items-center gap-4 text-navy">
+                  <div className="bg-gold/20 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span>{t('homeValue.benefit3')}</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <HomeValueForm />
+            </div>
+          </div>
         </div>
       </section>
 
