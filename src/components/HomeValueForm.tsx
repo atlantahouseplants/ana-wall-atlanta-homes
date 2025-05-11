@@ -24,6 +24,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { submitHomeValueRequest } from "@/lib/db";
 
 // Form validation schema
 const homeValueFormSchema = z.object({
@@ -56,18 +57,22 @@ const HomeValueForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call to valuation service
-      console.log("Submitting lead data:", data);
+      const result = await submitHomeValueRequest(data);
       
-      // This would be replaced with an actual API call in production
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      toast({
-        title: t('homeValue.success.title'),
-        description: t('homeValue.success.message'),
-      });
-      
-      form.reset();
+      if (result.error) {
+        console.error("Error submitting home value request:", result.error);
+        toast({
+          title: t('homeValue.error.title'),
+          description: t('homeValue.error.message'),
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: t('homeValue.success.title'),
+          description: t('homeValue.success.message'),
+        });
+        form.reset();
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({

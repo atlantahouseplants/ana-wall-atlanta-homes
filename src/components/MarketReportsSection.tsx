@@ -5,26 +5,58 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
 import { ChartBarIcon } from 'lucide-react';
+import { addMarketReportSubscriber } from '@/lib/db';
 
 export default function MarketReportsSection() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeError, setSubscribeError] = useState<string | null>(null);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubscribing(true);
+    setSubscribeError(null);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubscribing(false);
-      setEmail('');
+    try {
+      const { data, error } = await addMarketReportSubscriber(email);
+      
+      if (error) {
+        // Check for unique constraint violation (email already exists)
+        if (error.message?.includes('unique constraint')) {
+          setSubscribeError(t('marketReports.error.alreadySubscribed'));
+          toast({
+            title: t('marketReports.error.title'),
+            description: t('marketReports.error.alreadySubscribed'),
+            variant: "destructive",
+          });
+        } else {
+          setSubscribeError(t('marketReports.error.generic'));
+          toast({
+            title: t('marketReports.error.title'),
+            description: t('marketReports.error.generic'),
+            variant: "destructive",
+          });
+        }
+      } else {
+        setEmail('');
+        toast({
+          title: t('marketReports.success.title'),
+          description: t('marketReports.success.message'),
+        });
+      }
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      setSubscribeError(t('marketReports.error.generic'));
       toast({
-        title: t('marketReports.success.title'),
-        description: t('marketReports.success.message'),
+        title: t('marketReports.error.title'),
+        description: t('marketReports.error.generic'),
+        variant: "destructive",
       });
-    }, 1000);
+    } finally {
+      setIsSubscribing(false);
+    }
   };
 
   // Sample market data
@@ -60,14 +92,20 @@ export default function MarketReportsSection() {
             <p className="mb-6">{t('marketReports.description')}</p>
             
             <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row gap-2">
-              <Input 
-                type="email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                placeholder={t('marketReports.emailPlaceholder')} 
-                required 
-                className="flex-1 bg-navy-light border-navy-light text-white" 
-              />
+              <div className="flex-1">
+                <Input 
+                  type="email" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  placeholder={t('marketReports.emailPlaceholder')} 
+                  required 
+                  className="bg-navy-light border-navy-light text-white"
+                  aria-invalid={!!subscribeError}
+                />
+                {subscribeError && (
+                  <p className="text-sm text-red-400 mt-1">{subscribeError}</p>
+                )}
+              </div>
               <Button 
                 type="submit" 
                 className="bg-gold hover:bg-gold/90 text-navy font-semibold" 
