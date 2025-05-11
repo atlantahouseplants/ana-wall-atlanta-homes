@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
-import { Chart } from 'lucide-react';
+import { ChartBarIcon } from 'lucide-react';
 
 export default function MarketReportsSection() {
   const { t } = useLanguage();
@@ -40,7 +40,7 @@ export default function MarketReportsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <h2 className="section-title text-white flex items-center">
-              <Chart className="mr-3 text-gold" />
+              <ChartBarIcon className="mr-3 text-gold" />
               {t('marketReports.title')}
             </h2>
             <p className="text-gold mb-6">{t('marketReports.subtitle')}</p>
