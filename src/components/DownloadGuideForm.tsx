@@ -7,6 +7,18 @@ import { useToast } from './ui/use-toast';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { Download } from 'lucide-react';
+import { submitGuideDownload } from '@/lib/db';
+import { sendToWebhook, handleWebhookError } from '@/lib/webhook';
+import { z } from 'zod';
+
+// Validation schema
+const guideSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  email: z.string().email("Valid email is required"),
+  guide_type: z.enum(["buying", "selling"], {
+    required_error: "Guide type is required",
+  }),
+});
 
 export default function DownloadGuideForm() {
   const { t } = useLanguage();
@@ -15,24 +27,97 @@ export default function DownloadGuideForm() {
   const [email, setEmail] = useState('');
   const [guideType, setGuideType] = useState('buying');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    try {
+      guideSchema.parse({
+        name,
+        email,
+        guide_type: guideType as "buying" | "selling",
+      });
+      setValidationErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            errors[err.path[0].toString()] = err.message;
+          }
+        });
+        setValidationErrors(errors);
+      }
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast({
+        title: t('guide.error.validation'),
+        description: t('guide.error.checkFields'),
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Reset form
-      setName('');
-      setEmail('');
+    try {
+      // Prepare data for Supabase
+      const guideData = {
+        name,
+        email,
+        guide_type: guideType as "buying" | "selling",
+      };
       
-      // Show success message
-      toast({
-        title: t('guide.success.title'),
-        description: t('guide.success.message'),
+      // Submit to Supabase
+      const result = await submitGuideDownload(guideData);
+      
+      // Also send to webhook
+      const webhookSent = await sendToWebhook({
+        formType: "guide_download",
+        formData: guideData,
+        timestamp: new Date().toISOString(),
+        source: window.location.href
       });
-    }, 1500);
+      
+      if (result.error) {
+        console.error("Error submitting guide download:", result.error);
+        toast({
+          title: t('guide.error.title'),
+          description: t('guide.error.message'),
+          variant: "destructive",
+        });
+      } else {
+        // Show success message
+        toast({
+          title: t('guide.success.title'),
+          description: t('guide.success.message'),
+        });
+        
+        // Only show webhook error if Supabase was successful but webhook failed
+        if (!webhookSent) {
+          handleWebhookError();
+        }
+        
+        // Reset form
+        setName('');
+        setEmail('');
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: t('guide.error.title'),
+        description: t('guide.error.message'),
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -65,6 +150,9 @@ export default function DownloadGuideForm() {
               <Label htmlFor="selling">{t('guide.form.selling')}</Label>
             </div>
           </RadioGroup>
+          {validationErrors.guide_type && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.guide_type}</p>
+          )}
         </div>
         
         <div>
@@ -78,7 +166,11 @@ export default function DownloadGuideForm() {
             placeholder={t('guide.form.namePlaceholder')}
             required
             className="mt-1"
+            aria-invalid={!!validationErrors.name}
           />
+          {validationErrors.name && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.name}</p>
+          )}
         </div>
         
         <div>
@@ -93,7 +185,11 @@ export default function DownloadGuideForm() {
             placeholder={t('guide.form.emailPlaceholder')}
             required
             className="mt-1"
+            aria-invalid={!!validationErrors.email}
           />
+          {validationErrors.email && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.email}</p>
+          )}
         </div>
         
         <Button 

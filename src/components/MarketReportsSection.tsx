@@ -1,11 +1,11 @@
-
 import { useLanguage } from '@/context/LanguageContext';
 import { useState } from 'react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { useToast } from './ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { ChartBarIcon } from 'lucide-react';
 import { addMarketReportSubscriber } from '@/lib/db';
+import { sendToWebhook, handleWebhookError } from '@/lib/webhook';
 
 export default function MarketReportsSection() {
   const { t } = useLanguage();
@@ -20,7 +20,16 @@ export default function MarketReportsSection() {
     setSubscribeError(null);
     
     try {
+      // Submit to Supabase
       const { data, error } = await addMarketReportSubscriber(email);
+      
+      // Also send to webhook
+      const webhookSent = await sendToWebhook({
+        formType: "market_report_subscription",
+        formData: { email },
+        timestamp: new Date().toISOString(),
+        source: window.location.href
+      });
       
       if (error) {
         // Check for unique constraint violation (email already exists)
@@ -45,6 +54,11 @@ export default function MarketReportsSection() {
           title: t('marketReports.success.title'),
           description: t('marketReports.success.message'),
         });
+        
+        // Only show webhook error if Supabase was successful but webhook failed
+        if (!webhookSent) {
+          handleWebhookError();
+        }
       }
     } catch (error) {
       console.error("Error subscribing:", error);

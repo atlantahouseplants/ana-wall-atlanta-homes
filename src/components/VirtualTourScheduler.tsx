@@ -4,8 +4,22 @@ import { useLanguage } from '@/context/LanguageContext';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
-import { useToast } from './ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Calendar, Clock } from 'lucide-react';
+import { scheduleVirtualTour } from '@/lib/db';
+import { sendToWebhook, handleWebhookError } from '@/lib/webhook';
+import { z } from "zod";
+
+// Validation schema
+const tourSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  email: z.string().email("Valid email is required"),
+  phone: z.string().min(10, "Valid phone number is required"),
+  property_address: z.string().min(5, "Property address is required"),
+  date: z.string().min(1, "Date is required"),
+  time: z.string().min(1, "Time is required"),
+  message: z.string().optional(),
+});
 
 export default function VirtualTourScheduler() {
   const { t } = useLanguage();
@@ -18,6 +32,7 @@ export default function VirtualTourScheduler() {
   const [propertyAddress, setPropertyAddress] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   
   // Available time slots
   const timeSlots = [
@@ -26,28 +41,108 @@ export default function VirtualTourScheduler() {
     '03:00 PM', '04:00 PM', '05:00 PM'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    try {
+      tourSchema.parse({
+        name,
+        email,
+        phone,
+        property_address: propertyAddress,
+        date,
+        time,
+        message,
+      });
+      setValidationErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            errors[err.path[0].toString()] = err.message;
+          }
+        });
+        setValidationErrors(errors);
+      }
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast({
+        title: t('virtualTour.error.validation'),
+        description: t('virtualTour.error.checkFields'),
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Reset form
-      setName('');
-      setEmail('');
-      setPhone('');
-      setDate('');
-      setTime('');
-      setPropertyAddress('');
-      setMessage('');
+    try {
+      // Prepare data for Supabase
+      const tourData = {
+        name,
+        email,
+        phone,
+        property_address: propertyAddress,
+        date,
+        time,
+        message: message || "",
+      };
       
-      // Show success message
-      toast({
-        title: t('virtualTour.success.title'),
-        description: t('virtualTour.success.message'),
+      // Submit to Supabase
+      const result = await scheduleVirtualTour(tourData);
+      
+      // Also send to webhook
+      const webhookSent = await sendToWebhook({
+        formType: "virtual_tour_request",
+        formData: tourData,
+        timestamp: new Date().toISOString(),
+        source: window.location.href
       });
-    }, 1500);
+      
+      if (result.error) {
+        console.error("Error scheduling tour:", result.error);
+        toast({
+          title: t('virtualTour.error.title'),
+          description: t('virtualTour.error.message'),
+          variant: "destructive",
+        });
+      } else {
+        // Show success message
+        toast({
+          title: t('virtualTour.success.title'),
+          description: t('virtualTour.success.message'),
+        });
+        
+        // Only show webhook error if Supabase was successful but webhook failed
+        if (!webhookSent) {
+          handleWebhookError();
+        }
+        
+        // Reset form
+        setName('');
+        setEmail('');
+        setPhone('');
+        setDate('');
+        setTime('');
+        setPropertyAddress('');
+        setMessage('');
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: t('virtualTour.error.title'),
+        description: t('virtualTour.error.message'),
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

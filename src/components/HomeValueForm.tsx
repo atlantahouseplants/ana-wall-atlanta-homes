@@ -9,7 +9,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -25,6 +24,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { submitHomeValueRequest } from "@/lib/db";
+import { sendToWebhook, handleWebhookError } from "@/lib/webhook";
 
 // Form validation schema
 const homeValueFormSchema = z.object({
@@ -57,8 +57,26 @@ const HomeValueForm = () => {
     setIsSubmitting(true);
     
     try {
-      const result = await submitHomeValueRequest(data);
+      // Make sure all required fields have values before submitting to Supabase
+      const requestData = {
+        address: data.address, // Required by HomeValueRequest type
+        name: data.name,       // Required
+        email: data.email,     // Required
+        phone: data.phone,     // Required
+        notes: data.notes || "" // Optional, providing default value
+      };
       
+      // Submit to Supabase
+      const result = await submitHomeValueRequest(requestData);
+      
+      // Send to webhook regardless of Supabase result (for redundancy)
+      const webhookSent = await sendToWebhook({
+        formType: "home_value_request",
+        formData: data,
+        timestamp: new Date().toISOString(),
+        source: window.location.href
+      });
+
       if (result.error) {
         console.error("Error submitting home value request:", result.error);
         toast({
@@ -67,10 +85,18 @@ const HomeValueForm = () => {
           variant: "destructive",
         });
       } else {
+        // Show success toast
         toast({
           title: t('homeValue.success.title'),
           description: t('homeValue.success.message'),
         });
+        
+        // Only show webhook error if Supabase was successful but webhook failed
+        if (!webhookSent) {
+          handleWebhookError();
+        }
+        
+        // Reset form after successful submission
         form.reset();
       }
     } catch (error) {
