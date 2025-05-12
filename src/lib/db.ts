@@ -18,6 +18,12 @@ export interface MarketReportSubscriber {
 
 export const addMarketReportSubscriber = async (email: string) => {
   try {
+    // For development when Supabase isn't configured, return mock data
+    if (!import.meta.env.VITE_SUPABASE_URL) {
+      console.log('Development mode: Mock addMarketReportSubscriber', { email });
+      return { data: [{ id: 'mock-id', email, created_at: new Date().toISOString() }], error: null };
+    }
+    
     const { data, error } = await supabase
       .from(TABLES.MARKET_REPORT_SUBSCRIBERS)
       .insert([{ email }])
@@ -45,6 +51,19 @@ export interface HomeValueRequest {
 
 export const submitHomeValueRequest = async (request: Omit<HomeValueRequest, 'id' | 'created_at'>) => {
   try {
+    // For development when Supabase isn't configured, return mock data
+    if (!import.meta.env.VITE_SUPABASE_URL) {
+      console.log('Development mode: Mock submitHomeValueRequest', request);
+      return { 
+        data: [{
+          id: 'mock-id',
+          ...request,
+          created_at: new Date().toISOString()
+        }], 
+        error: null 
+      };
+    }
+    
     const { data, error } = await supabase
       .from(TABLES.HOME_VALUE_REQUESTS)
       .insert([request])
@@ -74,6 +93,19 @@ export interface VirtualTourRequest {
 
 export const scheduleVirtualTour = async (request: Omit<VirtualTourRequest, 'id' | 'created_at'>) => {
   try {
+    // For development when Supabase isn't configured, return mock data
+    if (!import.meta.env.VITE_SUPABASE_URL) {
+      console.log('Development mode: Mock scheduleVirtualTour', request);
+      return { 
+        data: [{
+          id: 'mock-id',
+          ...request,
+          created_at: new Date().toISOString()
+        }], 
+        error: null 
+      };
+    }
+    
     const { data, error } = await supabase
       .from(TABLES.VIRTUAL_TOUR_REQUESTS)
       .insert([request])
@@ -99,6 +131,19 @@ export interface GuideDownload {
 
 export const submitGuideDownload = async (request: Omit<GuideDownload, 'id' | 'created_at'>) => {
   try {
+    // For development when Supabase isn't configured, return mock data
+    if (!import.meta.env.VITE_SUPABASE_URL) {
+      console.log('Development mode: Mock submitGuideDownload', request);
+      return { 
+        data: [{
+          id: 'mock-id',
+          ...request,
+          created_at: new Date().toISOString()
+        }], 
+        error: null 
+      };
+    }
+    
     const { data, error } = await supabase
       .from(TABLES.GUIDE_DOWNLOADS)
       .insert([request])
