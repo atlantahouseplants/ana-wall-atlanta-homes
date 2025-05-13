@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -8,11 +9,13 @@ import VirtualTourScheduler from '@/components/VirtualTourScheduler';
 import ToolsSection from '@/components/ToolsSection';
 import MarketReportsSection from '@/components/MarketReportsSection';
 import FaqSection from '@/components/FaqSection';
+import ContactModal from '@/components/ContactModal';
 import { heroBackground, propertyImages, agentProfile } from '@/assets/images';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const { t } = useLanguage();
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   // Sample featured properties
   const featuredProperties = [
@@ -73,6 +76,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
 
       {/* Hero Section */}
       <section 
@@ -205,7 +209,12 @@ const Index = () => {
                 {t('about.bio')}
               </p>
               <div className="flex gap-4 mt-8">
-                <Button className="btn-primary">{t('nav.contact')}</Button>
+                <Button 
+                  className="btn-primary"
+                  onClick={() => setContactModalOpen(true)}
+                >
+                  {t('nav.contact')}
+                </Button>
                 <Button className="btn-secondary">{t('nav.properties')}</Button>
               </div>
             </div>
@@ -258,7 +267,10 @@ const Index = () => {
       <section id="contact" className="py-16 md:py-24 bg-cream">
         <div className="container-custom text-center">
           <h2 className="section-title mb-6">{t('cta.ready')}</h2>
-          <Button className="btn-primary text-lg px-8 py-3">
+          <Button 
+            className="btn-primary text-lg px-8 py-3"
+            onClick={() => setContactModalOpen(true)}
+          >
             {t('cta.contact')}
           </Button>
         </div>

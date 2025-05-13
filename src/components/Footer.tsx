@@ -1,12 +1,16 @@
 
+import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import ContactModal from './ContactModal';
 
 export default function Footer() {
   const { t } = useLanguage();
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   const currentYear = new Date().getFullYear();
   
   return (
     <footer className="bg-navy text-white pt-12 pb-6">
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo and About */}
@@ -73,6 +77,17 @@ export default function Footer() {
                   (404) 555-1234
                 </a>
               </div>
+              
+              <button 
+                onClick={() => setContactModalOpen(true)}
+                className="mt-2 text-gold hover:text-white transition-colors flex items-center gap-2"
+              >
+                {t('footer.contactUs')}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
             </div>
           </div>
           
