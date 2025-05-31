@@ -64,8 +64,8 @@ export default function Footer() {
                   <path d="M5 4H19C20.1 4 21 4.9 21 6V18C21 19.1 20.1 20 19 20H5C3.9 20 3 19.1 3 18V6C3 4.9 3.9 4 5 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M3 6L12 13L21 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <a href="mailto:ana@anawall.com" className="text-gray-300 hover:text-gold transition-colors">
-                  ana@anawall.com
+                <a href="mailto:ana@fortunahomesatl.com" className="text-gray-300 hover:text-gold transition-colors">
+                  ana@fortunahomesatl.com
                 </a>
               </div>
               
@@ -73,8 +73,8 @@ export default function Footer() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M22 16.92V19.92C22 20.4704 21.7893 20.9987 21.4142 21.3738C21.0391 21.7489 20.5109 21.96 19.96 21.96C18.4326 21.8442 16.9501 21.4356 15.5922 20.76C14.3316 20.1318 13.1973 19.293 12.24 18.28C11.2112 17.3388 10.37 16.2164 9.73222 14.97C9.04512 13.6097 8.63183 12.1199 8.52 10.58C8.51955 10.034 8.73002 9.51035 9.10293 9.13744C9.47584 8.76453 9.9995 8.55406 10.545 8.55351H13.545C14.6114 8.54472 15.5352 9.34479 15.67 10.4C15.7373 11.025 15.8671 11.6401 16.0569 12.235C16.2236 12.7517 16.105 13.3143 15.74 13.72L14.865 14.595C15.4424 15.9093 16.2838 17.0825 17.33 18.07C18.3175 19.1162 19.4907 19.9576 20.805 20.535L21.68 19.66C22.0857 19.295 22.6483 19.1764 23.165 19.343C23.7599 19.5328 24.375 19.6626 25 19.73C26.0785 19.8698 26.8836 20.8339 26.85 21.92L22 16.92Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <a href="tel:+14045551234" className="text-gray-300 hover:text-gold transition-colors">
-                  (404) 555-1234
+                <a href="tel:+14049348516" className="text-gray-300 hover:text-gold transition-colors">
+                  (404) 934-8516
                 </a>
               </div>
               

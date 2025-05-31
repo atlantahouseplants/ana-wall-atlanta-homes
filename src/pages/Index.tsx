@@ -10,12 +10,20 @@ import ToolsSection from '@/components/ToolsSection';
 import MarketReportsSection from '@/components/MarketReportsSection';
 import FaqSection from '@/components/FaqSection';
 import ContactModal from '@/components/ContactModal';
-import { heroBackground, propertyImages, agentProfile } from '@/assets/images';
+import { heroBackground, propertyImages } from '@/assets/images';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const { t } = useLanguage();
   const [contactModalOpen, setContactModalOpen] = useState(false);
+
+  // Ana's professional photos
+  const anaPhotos = {
+    heroPhoto: "/lovable-uploads/98f77876-f6c8-4478-9ca1-87616290ea22.png", // Full body professional shot
+    aboutPhoto: "/lovable-uploads/a424100c-6f6f-4b29-876e-59201565a0d5.png", // Clean headshot with white jacket
+    contactPhoto: "/lovable-uploads/631faac4-a98b-4710-b5f3-2596258723fa.png", // Friendly portrait
+    ctaPhoto: "/lovable-uploads/1ade2f13-f281-45e5-a3e2-503845556107.png" // Professional standing pose
+  };
 
   // Sample featured properties
   const featuredProperties = [
@@ -78,7 +86,7 @@ const Index = () => {
       <Navbar />
       <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
 
-      {/* Hero Section */}
+      {/* Hero Section with Ana's Photo */}
       <section 
         className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroBackground})` }}
@@ -87,16 +95,30 @@ const Index = () => {
         <div className="absolute inset-0 bg-navy/40"></div>
         
         {/* Hero Content */}
-        <div className="container-custom relative z-10 text-center text-white">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold mb-4 animate-fade-in">
-            {t('hero.title')}
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto animate-fade-in">
-            {t('hero.subtitle')}
-          </p>
-          <a href="#properties" className="btn-primary text-lg px-8 py-3 animate-fade-up">
-            {t('hero.cta')}
-          </a>
+        <div className="container-custom relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-white">
+            <div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold mb-4 animate-fade-in">
+                {t('hero.title')}
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 animate-fade-in">
+                {t('hero.subtitle')}
+              </p>
+              <a href="#properties" className="btn-primary text-lg px-8 py-3 animate-fade-up">
+                {t('hero.cta')}
+              </a>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative">
+                <div className="absolute -top-4 -right-4 w-full h-full border-2 border-gold opacity-50"></div>
+                <img 
+                  src={anaPhotos.heroPhoto} 
+                  alt="Ana Wall - Professional Real Estate Agent" 
+                  className="w-80 md:w-96 h-auto relative z-10 rounded-lg shadow-2xl object-cover"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -198,7 +220,7 @@ const Index = () => {
       {/* Market Reports Section */}
       <MarketReportsSection />
 
-      {/* About Section */}
+      {/* About Section with Ana's Professional Photo */}
       <section id="about" className="py-16 md:py-24 bg-white">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -223,9 +245,9 @@ const Index = () => {
               <div className="relative">
                 <div className="absolute -top-4 -left-4 w-full h-full border-2 border-gold"></div>
                 <img 
-                  src={agentProfile} 
-                  alt="Ana Wall" 
-                  className="w-full relative z-10"
+                  src={anaPhotos.aboutPhoto} 
+                  alt="Ana Wall - Professional Real Estate Expert" 
+                  className="w-full relative z-10 rounded-lg shadow-lg object-cover max-w-md mx-auto"
                 />
               </div>
             </div>
@@ -239,13 +261,31 @@ const Index = () => {
       {/* Tools Section - Mortgage Calculator & Guide Downloads */}
       <ToolsSection />
       
-      {/* Testimonials Section */}
+      {/* Testimonials Section with Ana's Photo */}
       <section className="py-16 md:py-24 bg-navy text-white">
         <div className="container-custom">
-          <h2 className="section-title text-white text-center">{t('testimonials.title')}</h2>
-          <p className="section-subtitle text-center text-gold">{t('testimonials.subtitle')}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+            <div>
+              <h2 className="section-title text-white">{t('testimonials.title')}</h2>
+              <p className="section-subtitle text-gold">{t('testimonials.subtitle')}</p>
+              <p className="text-gray-300 mb-6">
+                "My clients' success is my success. I'm dedicated to providing exceptional service and expertise to help you achieve your real estate goals in Atlanta's luxury market."
+              </p>
+              <p className="text-gold font-semibold">- Ana Wall</p>
+            </div>
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="absolute -top-4 -right-4 w-full h-full border-2 border-gold opacity-30"></div>
+                <img 
+                  src={anaPhotos.contactPhoto} 
+                  alt="Ana Wall - Client Testimonials" 
+                  className="w-80 h-auto relative z-10 rounded-lg shadow-2xl object-cover"
+                />
+              </div>
+            </div>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map(testimonial => (
               <div key={testimonial.id} className="bg-navy-light p-8 rounded-lg">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gold mb-4">
@@ -263,16 +303,41 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section with Ana's Professional Photo */}
       <section id="contact" className="py-16 md:py-24 bg-cream">
-        <div className="container-custom text-center">
-          <h2 className="section-title mb-6">{t('cta.ready')}</h2>
-          <Button 
-            className="btn-primary text-lg px-8 py-3"
-            onClick={() => setContactModalOpen(true)}
-          >
-            {t('cta.contact')}
-          </Button>
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h2 className="section-title mb-6">{t('cta.ready')}</h2>
+              <p className="text-gray-700 mb-8 text-lg">
+                Ready to find your dream home or sell your property in Atlanta's luxury market? Let's connect and discuss how I can help you achieve your real estate goals.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Button 
+                  className="btn-primary text-lg px-8 py-3"
+                  onClick={() => setContactModalOpen(true)}
+                >
+                  {t('cta.contact')}
+                </Button>
+                <a 
+                  href="tel:404-934-8516"
+                  className="btn-secondary text-lg px-8 py-3 text-center"
+                >
+                  Call (404) 934-8516
+                </a>
+              </div>
+            </div>
+            <div className="flex justify-center order-first lg:order-last">
+              <div className="relative">
+                <div className="absolute -top-4 -left-4 w-full h-full bg-gold/20 rounded-lg"></div>
+                <img 
+                  src={anaPhotos.ctaPhoto} 
+                  alt="Ana Wall - Ready to Help You" 
+                  className="w-80 h-auto relative z-10 rounded-lg shadow-lg object-cover"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
