@@ -16,10 +16,10 @@ export default function Footer() {
           {/* Logo and About */}
           <div>
             <h2 className="font-playfair text-xl mb-4">
-              <span className="text-gold">Ana</span> Wall
+              <span className="text-gold">Fortuna</span> Homes
             </h2>
             <p className="text-gray-300 mb-4">
-              Luxury real estate services in Atlanta, Georgia. Specializing in high-end properties and exceptional client experiences.
+              Founded by licensed Realtor Ana Wall, Fortuna Homes specializes in luxury real estate services in Atlanta, Georgia. We deliver exceptional client experiences in the city's most sought-after neighborhoods.
             </p>
             {/* Social Media Links */}
             <div className="flex gap-4">
@@ -131,7 +131,7 @@ export default function Footer() {
         
         {/* Copyright */}
         <div className="pt-6 mt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
-          <p>© {currentYear} Ana Wall {t('footer.rights')}.</p>
+          <p>© {currentYear} Fortuna Homes - Ana Wall {t('footer.rights')}.</p>
         </div>
       </div>
     </footer>
