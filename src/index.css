@@ -16,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 20% 12%;
 
-    --primary: 38 53% 57%;
+    --primary: 338 34% 67%;
     --primary-foreground: 210 20% 12%;
 
     --secondary: 210 33% 15%;
@@ -25,7 +25,7 @@
     --muted: 210 10% 92%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 38 53% 87%;
+    --accent: 338 34% 87%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,7 +33,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 38 53% 57%;
+    --ring: 338 34% 67%;
 
     --radius: 0.5rem;
   }
@@ -63,11 +63,11 @@
   }
   
   .btn-primary {
-    @apply bg-gold text-white font-medium py-2 px-6 hover:bg-gold-light transition-all duration-300 rounded;
+    @apply bg-rose text-white font-medium py-2 px-6 hover:bg-rose-dark transition-all duration-300 rounded;
   }
   
   .btn-secondary {
-    @apply border border-gold text-navy font-medium py-2 px-6 hover:bg-gold/10 transition-all duration-300 rounded;
+    @apply border border-rose text-navy font-medium py-2 px-6 hover:bg-rose/10 transition-all duration-300 rounded;
   }
   
   .section-title {
@@ -75,7 +75,7 @@
   }
   
   .section-subtitle {
-    @apply text-gold text-lg md:text-xl mb-8;
+    @apply text-rose text-lg md:text-xl mb-8;
   }
   
   .card-hover {
@@ -83,6 +83,6 @@
   }
   
   .nav-link {
-    @apply relative text-navy hover:text-gold transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-gold after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform;
+    @apply relative text-navy hover:text-rose transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-rose after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform;
   }
 }

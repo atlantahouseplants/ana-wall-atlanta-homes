@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import Navbar from '@/components/Navbar';
@@ -26,9 +25,9 @@ const Index = () => {
 
   // Testimonial photos from uploaded images
   const testimonialPhotos = {
-    woman1: "/lovable-uploads/53f41a8c-bd2d-4151-ba81-2cbf165425c8.png",
+    woman1: "/lovable-uploads/72620f36-010d-43fb-ab97-60f5ef33b3f9.png", // Now for Sarah Johnson
     man: "/lovable-uploads/e4764e71-9c1d-4b7c-bad1-cff478955c68.png",
-    woman2: "/lovable-uploads/72620f36-010d-43fb-ab97-60f5ef33b3f9.png"
+    woman2: "/lovable-uploads/53f41a8c-bd2d-4151-ba81-2cbf165425c8.png" // Now for Jennifer Chen
   };
 
   // Sample featured properties
@@ -65,14 +64,14 @@ const Index = () => {
     }
   ];
 
-  // Updated testimonials with real photos
+  // Updated testimonials with swapped photos
   const testimonials = [
     {
       id: 1,
       text: "Ana's knowledge of the Atlanta luxury market is unmatched. She found us our dream home in Buckhead when other agents couldn't.",
       author: "Sarah Johnson",
       role: "Home Buyer",
-      photo: testimonialPhotos.woman1
+      photo: testimonialPhotos.woman1 // Now using the photo that was for Jennifer
     },
     {
       id: 2,
@@ -86,7 +85,7 @@ const Index = () => {
       text: "Ana's attention to detail and dedication to her clients is remarkable. She guided us through every step of the buying process with expertise and care.",
       author: "Jennifer Chen",
       role: "Home Buyer",
-      photo: testimonialPhotos.woman2
+      photo: testimonialPhotos.woman2 // Now using the photo that was for Sarah
     }
   ];
 
@@ -95,13 +94,13 @@ const Index = () => {
       <Navbar />
       <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
 
-      {/* Hero Section - Clean Layout without Image */}
+      {/* Hero Section - Clean Layout */}
       <section 
         className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroBackground})` }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-navy/50"></div>
+        <div className="absolute inset-0 bg-navy/60"></div>
         
         {/* Hero Content - Centered and Clean */}
         <div className="container-custom relative z-10 text-center text-white">
@@ -119,7 +118,7 @@ const Index = () => {
               <a href="#properties" className="btn-primary text-lg px-8 py-3">
                 View Featured Properties
               </a>
-              <a href="#home-value" className="btn-secondary text-lg px-8 py-3">
+              <a href="#home-value" className="btn-secondary text-lg px-8 py-3 bg-white/90 text-navy border-white hover:bg-white">
                 Get Free Home Valuation
               </a>
             </div>
@@ -127,8 +126,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Lead Magnet - Home Value Section */}
-      <section id="home-value" className="py-16 md:py-24 bg-white">
+      {/* Lead Magnet - Home Value Section with Enhanced Visibility */}
+      <section id="home-value" className="py-16 md:py-24 bg-gradient-to-r from-blush to-blush-light">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -137,24 +136,24 @@ const Index = () => {
               <div className="text-gray-700 mb-6 space-y-4">
                 <p>Discover your property's true market value with Fortuna Homes' comprehensive analysis tool. Ana Wall's deep knowledge of Atlanta's luxury neighborhoods ensures you get the most accurate assessment.</p>
                 <div className="flex items-center gap-4 text-navy">
-                  <div className="bg-gold/20 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="bg-rose/20 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-rose" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <span>Instant market analysis based on recent comparable sales</span>
                 </div>
                 <div className="flex items-center gap-4 text-navy">
-                  <div className="bg-gold/20 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="bg-rose/20 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-rose" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <span>Personalized insights for your specific neighborhood</span>
                 </div>
                 <div className="flex items-center gap-4 text-navy">
-                  <div className="bg-gold/20 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="bg-rose/20 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-rose" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -162,7 +161,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
               <HomeValueForm />
             </div>
           </div>
@@ -278,15 +277,15 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
             <div>
               <h2 className="section-title text-white">Client Success Stories</h2>
-              <p className="section-subtitle text-gold">Why Atlanta clients choose Fortuna Homes</p>
+              <p className="section-subtitle text-rose">Why Atlanta clients choose Fortuna Homes</p>
               <p className="text-gray-300 mb-6">
                 "My clients' success is my success. At Fortuna Homes, I'm dedicated to providing exceptional service and expertise to help you achieve your real estate goals in Atlanta's luxury market. Every transaction is personal, and every client deserves nothing less than excellence."
               </p>
-              <p className="text-gold font-semibold">- Ana Wall, Founder of Fortuna Homes</p>
+              <p className="text-rose font-semibold">- Ana Wall, Founder of Fortuna Homes</p>
             </div>
             <div className="flex justify-center">
               <div className="relative">
-                <div className="absolute -top-4 -right-4 w-full h-full border-2 border-gold opacity-30"></div>
+                <div className="absolute -top-4 -right-4 w-full h-full border-2 border-rose opacity-30"></div>
                 <img 
                   src={anaPhotos.contactPhoto} 
                   alt="Ana Wall - Fortuna Homes Founder" 
@@ -299,7 +298,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map(testimonial => (
               <div key={testimonial.id} className="bg-navy-light p-8 rounded-lg">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gold mb-4">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-rose mb-4">
                   <path d="M10 11L6.5 11C6.10218 11 5.72064 10.842 5.43934 10.5607C5.15804 10.2794 5 9.8978 5 9.5V7C5 6.6022 5.15804 6.2206 5.43934 5.9393C5.72064 5.658 6.10218 5.5 6.5 5.5H8C8.3978 5.5 8.7794 5.658 9.0607 5.9393C9.342 6.2206 9.5 6.6022 9.5 7V13.5C9.5 14.2956 9.184 15.0587 8.6214 15.6213C8.0588 16.184 7.2956 16.5 6.5 16.5H5V13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M19 11L15.5 11C15.1022 11 14.7206 10.842 14.4393 10.5607C14.158 10.2794 14 9.8978 14 9.5V7C14 6.6022 14.158 6.2206 14.4393 5.9393C14.7206 5.658 15.1022 5.5 15.5 5.5H17C17.3978 5.5 17.7794 5.658 18.0607 5.9393C18.342 6.2206 18.5 6.6022 18.5 7V13.5C18.5 14.2956 18.184 15.0587 17.6214 15.6213C17.0588 16.184 16.2956 16.5 15.5 16.5H14V13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -312,7 +311,7 @@ const Index = () => {
                   />
                   <div>
                     <p className="font-semibold">{testimonial.author}</p>
-                    <p className="text-gold text-sm">{testimonial.role}</p>
+                    <p className="text-rose text-sm">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
@@ -322,7 +321,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="contact" className="py-16 md:py-24 bg-cream">
+      <section id="contact" className="py-16 md:py-24 bg-gradient-to-r from-blush to-cream">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -347,7 +346,7 @@ const Index = () => {
             </div>
             <div className="flex justify-center order-first lg:order-last">
               <div className="relative">
-                <div className="absolute -top-4 -left-4 w-full h-full bg-gold/20 rounded-lg"></div>
+                <div className="absolute -top-4 -left-4 w-full h-full bg-rose/20 rounded-lg"></div>
                 <img 
                   src={anaPhotos.ctaPhoto} 
                   alt="Ana Wall - Ready to Help You" 

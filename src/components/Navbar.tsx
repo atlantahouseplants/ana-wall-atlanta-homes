@@ -35,9 +35,9 @@ export default function Navbar() {
         <div className="flex items-center">
           <a href="/" className="text-navy">
             <h1 className="font-playfair text-xl md:text-2xl font-bold">
-              <span className="text-gold">Ana</span> Wall
+              <span className="text-rose">Fortuna</span> Homes
             </h1>
-            <p className="text-xs tracking-wider">LUXURY REAL ESTATE</p>
+            <p className="text-xs tracking-wider">BY ANA WALL</p>
           </a>
         </div>
         
@@ -54,7 +54,7 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-4">
           <LanguageSwitcher />
           <button 
-            className="text-navy hover:text-gold transition-colors" 
+            className="text-navy hover:text-rose transition-colors" 
             onClick={toggleMobileMenu}
           >
             {isMobileMenuOpen ? (
@@ -76,28 +76,28 @@ export default function Navbar() {
           <nav className="flex flex-col gap-4">
             <a 
               href="#" 
-              className="py-2 text-navy hover:text-gold transition-colors"
+              className="py-2 text-navy hover:text-rose transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.home')}
             </a>
             <a 
               href="#properties" 
-              className="py-2 text-navy hover:text-gold transition-colors"
+              className="py-2 text-navy hover:text-rose transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.properties')}
             </a>
             <a 
               href="#about" 
-              className="py-2 text-navy hover:text-gold transition-colors"
+              className="py-2 text-navy hover:text-rose transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.about')}
             </a>
             <a 
               href="#contact" 
-              className="py-2 text-navy hover:text-gold transition-colors"
+              className="py-2 text-navy hover:text-rose transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.contact')}
