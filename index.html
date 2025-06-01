@@ -124,6 +124,33 @@
       }
     }
     </script>
+    
+    <!-- Google Analytics (Replace GA_MEASUREMENT_ID with your actual Google Analytics ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+      
+      // Track chat interactions
+      window.trackChatEvent = function(action, message) {
+        gtag('event', action, {
+          event_category: 'Chat',
+          event_label: message ? message.substring(0, 50) : '',
+          value: 1
+        });
+      };
+      
+      // Track form submissions
+      window.trackFormSubmission = function(formName) {
+        gtag('event', 'form_submission', {
+          event_category: 'Lead Generation',
+          event_label: formName,
+          value: 1
+        });
+      };
+    </script>
   </head>
 
   <body>

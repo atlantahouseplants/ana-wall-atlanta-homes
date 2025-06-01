@@ -39,11 +39,7 @@ export const useChat = () => {
     setIsLoading(true);
 
     try {
-      console.log('=== SENDING TO MAKE.COM ===');
-      console.log('Message:', content.trim());
-      console.log('Message ID:', messageId);
-      
-      // Send to Make.com webhook - this will wait for the direct response
+      // Send to Make.com webhook
       const response = await fetch('https://hook.us1.make.com/5dj7ksgs499clp9qa29hdoql3u6f0rvt', {
         method: 'POST',
         headers: {
@@ -59,11 +55,6 @@ export const useChat = () => {
         }),
       });
 
-      console.log('=== RESPONSE FROM MAKE.COM ===');
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
       if (response.ok) {
         // Update message status to sent
         setMessages(prev => 
@@ -74,34 +65,23 @@ export const useChat = () => {
           )
         );
 
-        // Try to get the response from Make.com
+        // Get the response from Make.com
         const responseText = await response.text();
-        console.log('Raw response text:', responseText);
-        console.log('Response text length:', responseText.length);
-        console.log('Response text type:', typeof responseText);
-        
         let aiResponseContent = '';
 
         // Check if response is empty
         if (!responseText || responseText.trim().length === 0) {
-          console.log('⚠️ EMPTY RESPONSE FROM MAKE.COM');
-          aiResponseContent = "I received your message but didn't get a response from the AI. Please check the Make.com configuration.";
+          aiResponseContent = "I'm here to help with your Atlanta real estate questions! Could you please rephrase your question?";
         } else {
           try {
             // Try to parse as JSON first
             const responseData = JSON.parse(responseText);
-            console.log('Parsed JSON:', responseData);
             aiResponseContent = responseData.message || responseData.response || responseData.content || responseData.text || responseText;
-          } catch (parseError) {
-            console.log('JSON parse failed, using text directly:', parseError);
+          } catch {
             // If not JSON, use the text directly
             aiResponseContent = responseText;
           }
         }
-
-        console.log('Final AI response content:', aiResponseContent);
-        console.log('AI response length:', aiResponseContent.length);
-        console.log('================================');
 
         // Add AI response
         const aiMessage: ChatMessage = {
@@ -116,11 +96,10 @@ export const useChat = () => {
         setIsLoading(false);
 
       } else {
-        console.log('❌ HTTP ERROR:', response.status, response.statusText);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
     } catch (error) {
-      console.error('❌ CHAT ERROR:', error);
+      console.error('Chat error:', error);
       
       // Update message status to failed
       setMessages(prev => 
