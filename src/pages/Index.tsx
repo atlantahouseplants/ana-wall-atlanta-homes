@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import Navbar from '@/components/Navbar';
@@ -94,7 +95,7 @@ const Index = () => {
       <Navbar />
       <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
 
-      {/* Hero Section - Clean Layout */}
+      {/* Hero Section - Ultra Clean and Mobile Optimized */}
       <section 
         className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroBackground})` }}
@@ -102,24 +103,21 @@ const Index = () => {
         {/* Overlay */}
         <div className="absolute inset-0 bg-navy/60"></div>
         
-        {/* Hero Content - Centered and Clean */}
+        {/* Hero Content - Minimal and Clean */}
         <div className="container-custom relative z-10 text-center text-white">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold mb-6 animate-fade-in">
-              Find Your Atlanta Dream Home with Confidence
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-playfair font-bold mb-6 animate-fade-in">
+              Atlanta Luxury Real Estate
             </h1>
-            <p className="text-xl md:text-2xl mb-4 animate-fade-in">
-              Fortuna Homes, led by top Atlanta Realtor Ana Wall, specializes in luxury real estate for buyers and sellers in the city's most sought-after neighborhoods.
-            </p>
-            <p className="text-lg mb-8 text-gray-200 animate-fade-in">
-              With deep local expertise and unwavering client dedication, Ana delivers exceptional results in Atlanta's premium property market.
+            <p className="text-lg md:text-xl mb-8 animate-fade-in">
+              Expert guidance for buyers and sellers in Atlanta's premium neighborhoods
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up">
               <a href="#properties" className="btn-primary text-lg px-8 py-3">
-                View Featured Properties
+                View Properties
               </a>
               <a href="#home-value" className="btn-secondary text-lg px-8 py-3 bg-white/90 text-navy border-white hover:bg-white">
-                Get Free Home Valuation
+                Free Home Value
               </a>
             </div>
           </div>
