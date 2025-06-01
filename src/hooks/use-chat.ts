@@ -20,61 +20,6 @@ export const useChat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const sessionId = useRef(`session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
-  const pendingMessageIds = useRef<Set<string>>(new Set());
-
-  // Check for responses in localStorage (simple solution for webhook responses)
-  const checkForResponses = useCallback(() => {
-    const pendingIds = Array.from(pendingMessageIds.current);
-    
-    pendingIds.forEach(messageId => {
-      const responseKey = `chat_response_${messageId}`;
-      const storedResponse = localStorage.getItem(responseKey);
-      
-      if (storedResponse) {
-        try {
-          const responseData = JSON.parse(storedResponse);
-          
-          // Add AI response
-          const aiMessage: ChatMessage = {
-            id: `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            content: responseData.message || responseData.response || "Thank you for your message. I'm here to help with your Atlanta real estate questions!",
-            isUser: false,
-            timestamp: new Date(),
-            status: 'delivered',
-          };
-
-          setMessages(prev => [...prev, aiMessage]);
-          
-          // Clean up
-          localStorage.removeItem(responseKey);
-          pendingMessageIds.current.delete(messageId);
-          
-          if (pendingMessageIds.current.size === 0) {
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.error('Error parsing response:', error);
-          localStorage.removeItem(responseKey);
-          pendingMessageIds.current.delete(messageId);
-        }
-      }
-    });
-  }, []);
-
-  // Poll for responses every 2 seconds when there are pending messages
-  useEffect(() => {
-    let interval: number | null = null;
-    
-    if (pendingMessageIds.current.size > 0) {
-      interval = window.setInterval(checkForResponses, 2000);
-    }
-    
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [checkForResponses, isLoading]);
 
   const sendMessage = useCallback(async (content: string) => {
     if (!content.trim()) return;
@@ -94,7 +39,7 @@ export const useChat = () => {
     setIsLoading(true);
 
     try {
-      // Send to Make.com webhook with enhanced payload
+      // Send to Make.com webhook - this will wait for the direct response
       const response = await fetch('https://hook.us1.make.com/5dj7ksgs499clp9qa29hdoql3u6f0rvt', {
         method: 'POST',
         headers: {
@@ -105,13 +50,6 @@ export const useChat = () => {
           messageId: messageId,
           sessionId: sessionId.current,
           timestamp: new Date().toISOString(),
-          // Instructions for Make.com to send response back
-          responseInstructions: {
-            method: 'localStorage',
-            key: `chat_response_${messageId}`,
-            // Alternative: webhook URL if you have a backend
-            // webhookUrl: `${window.location.origin}/api/chat/webhook`,
-          },
           userAgent: navigator.userAgent,
           url: window.location.href,
         }),
@@ -127,29 +65,33 @@ export const useChat = () => {
           )
         );
 
-        // Add to pending messages
-        pendingMessageIds.current.add(messageId);
+        // Try to get the response from Make.com
+        const responseText = await response.text();
+        let aiResponseContent = '';
 
-        // Set a timeout to handle cases where no response comes back
-        setTimeout(() => {
-          if (pendingMessageIds.current.has(messageId)) {
-            // Add timeout message
-            const timeoutMessage: ChatMessage = {
-              id: `timeout_${Date.now()}`,
-              content: "I'm taking a bit longer to process your request. Please feel free to ask another question or contact Ana directly at (404) 934-8516 if you need immediate assistance.",
-              isUser: false,
-              timestamp: new Date(),
-              status: 'delivered',
-            };
+        try {
+          // Try to parse as JSON first
+          const responseData = JSON.parse(responseText);
+          aiResponseContent = responseData.message || responseData.response || responseData.content || responseText;
+        } catch {
+          // If not JSON, use the text directly
+          aiResponseContent = responseText || "Thank you for your message. I'm here to help with your Atlanta real estate questions!";
+        }
 
-            setMessages(prev => [...prev, timeoutMessage]);
-            pendingMessageIds.current.delete(messageId);
-            setIsLoading(false);
-          }
-        }, 30000); // 30 second timeout
+        // Add AI response
+        const aiMessage: ChatMessage = {
+          id: `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          content: aiResponseContent,
+          isUser: false,
+          timestamp: new Date(),
+          status: 'delivered',
+        };
+
+        setMessages(prev => [...prev, aiMessage]);
+        setIsLoading(false);
 
       } else {
-        throw new Error('Failed to send message');
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
     } catch (error) {
       console.error('Chat error:', error);
@@ -196,11 +138,7 @@ export const useChat = () => {
     };
 
     setMessages(prev => [...prev, aiMessage]);
-    pendingMessageIds.current.delete(messageId);
-    
-    if (pendingMessageIds.current.size === 0) {
-      setIsLoading(false);
-    }
+    setIsLoading(false);
   }, []);
 
   // Expose method globally for webhook responses
