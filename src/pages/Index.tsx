@@ -10,6 +10,7 @@ import ToolsSection from '@/components/ToolsSection';
 import MarketReportsSection from '@/components/MarketReportsSection';
 import FaqSection from '@/components/FaqSection';
 import ContactModal from '@/components/ContactModal';
+import { ChatWidget } from '@/components/ChatWidget';
 import { heroBackground, propertyImages } from '@/assets/images';
 import { Button } from '@/components/ui/button';
 
@@ -357,6 +358,9 @@ const Index = () => {
       </section>
 
       <Footer />
+      
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 };
