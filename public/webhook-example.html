@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Webhook Response Handler</title>
+</head>
+<body>
+    <h1>Chat Webhook Response Handler</h1>
+    <p>This page demonstrates how Make.com can send responses back to the chat widget.</p>
+    
+    <div id="instructions">
+        <h2>Instructions for Make.com Setup:</h2>
+        <ol>
+            <li>In your Make.com scenario, after processing the user's message with your AI agent:</li>
+            <li>Add an HTTP module to make a POST request to this URL: <code id="webhook-url"></code></li>
+            <li>Set the request body to include the messageId and response</li>
+            <li>The chat widget will automatically display the response</li>
+        </ol>
+    </div>
+
+    <div id="test-section">
+        <h2>Test Response Handler:</h2>
+        <input type="text" id="messageId" placeholder="Message ID" />
+        <textarea id="response" placeholder="AI Response"></textarea>
+        <button onclick="sendTestResponse()">Send Test Response</button>
+    </div>
+
+    <script>
+        // Set the webhook URL
+        document.getElementById('webhook-url').textContent = window.location.origin + '/webhook-response';
+        
+        // Function to handle webhook responses
+        function handleWebhookResponse(messageId, response) {
+            // Store in localStorage for the chat widget to pick up
+            const responseData = {
+                message: response,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem(`chat_response_${messageId}`, JSON.stringify(responseData));
+            
+            // Also try to call the global function if available
+            if (window.addChatResponse) {
+                window.addChatResponse(messageId, response);
+            }
+            
+            console.log('Response stored for message:', messageId);
+        }
+        
+        // Test function
+        function sendTestResponse() {
+            const messageId = document.getElementById('messageId').value;
+            const response = document.getElementById('response').value;
+            
+            if (messageId && response) {
+                handleWebhookResponse(messageId, response);
+                alert('Test response sent! Check the chat widget.');
+            } else {
+                alert('Please enter both message ID and response');
+            }
+        }
+        
+        // Listen for webhook POST requests (this would be handled by your backend in production)
+        // For demonstration purposes only
+        if (window.location.search.includes('webhook=true')) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const messageId = urlParams.get('messageId');
+            const response = urlParams.get('response');
+            
+            if (messageId && response) {
+                handleWebhookResponse(messageId, decodeURIComponent(response));
+                document.body.innerHTML = '<h1>Response Received</h1><p>The response has been sent to the chat widget.</p>';
+            }
+        }
+        
+        // Expose the handler globally
+        window.handleWebhookResponse = handleWebhookResponse;
+    </script>
+</body>
+</html>
