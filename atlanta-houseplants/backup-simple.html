@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlanta Houseplants - Professional Plant Care & Office Design</title>
+    <meta name="description" content="Atlanta Houseplants - Professional plant care, office design, and plant doctor services in Metro Atlanta. Transform your space with living plants.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: #2D5016;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #7FB069;
+        }
+        
+        .phone {
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2D5016, #7FB069);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: #2D5016;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #7FB069;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 4rem 0;
+            background: #F5F5DC;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2D5016;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: #2D5016;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            color: #2D5016;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            color: #7FB069;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 4rem 0;
+            background: white;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            color: #2D5016;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .quote {
+            background: #F5F5DC;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-style: italic;
+            color: #2D5016;
+            margin: 1.5rem 0;
+        }
+        
+        .about-image {
+            text-align: center;
+            font-size: 8rem;
+        }
+        
+        /* CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, #2D5016, #7FB069);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .final-cta p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2D5016;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #7FB069;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🌱 Atlanta Houseplants</div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="phone">📞 (404) 977-4539</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Transform Your Space with Living Plants</h1>
+            <p>Professional plant care, office design, and plant doctor services in Metro Atlanta</p>
+            <div class="cta-buttons">
+                <a href="tel:404-977-4539" class="btn btn-primary">Book Free Office Audit</a>
+                <a href="tel:404-977-4539" class="btn btn-secondary">Schedule Plant Doctor</a>
+                <a href="tel:404-977-4539" class="btn btn-outline">Calculate Order</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Plant Services</h2>
+            <p class="section-subtitle">From office design to plant rescue, we bring wellness and beauty to your space</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3>Office Plant Design</h3>
+                    <p>Transform your office into a living, breathing workspace with professional plant design and installation.</p>
+                    <div class="price">Starting at $350 per planter</div>
+                    <a href="tel:404-977-4539" class="btn btn-primary">Book Audit</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🌿</div>
+                    <h3>Recurring Plant Care</h3>
+                    <p>Never worry about watering day again with our professional maintenance services.</p>
+                    <div class="price">From $129/month</div>
+                    <a href="tel:404-977-4539" class="btn btn-secondary">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3>Plant Doctor Service</h3>
+                    <p>Your plants' ER visit—on-site diagnosis and treatment for struggling plants.</p>
+                    <div class="price">$129 flat rate (up to 10 plants)</div>
+                    <a href="tel:404-977-4539" class="btn btn-primary">Schedule Visit</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Meet Nick, Your Head Plant Doctor</h2>
+                    <p><strong>Certified Horticulturist & Lead Plant Professional</strong></p>
+                    <p>Nick has studied, breathed, and lived plants his entire life. A proud UGA horticulture graduate, he spent his early career managing greenhouse production, then pivoted to high-end interiorscapes.</p>
+                    <p>As Atlanta Houseplants' Head Plant Doctor, Nick oversees every design proposal, personally trains our technicians, and handles the most challenging plant rescues.</p>
+                    <div class="quote">
+                        "Great plant care is 80% observation, 20% action—listen to what the foliage is telling you."
+                        <br><small>- Nick, Head Plant Doctor</small>
+                    </div>
+                </div>
+                <div class="about-image">
+                    👨‍🌾
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Transform Your Space?</h2>
+            <p>Whether you're looking for office design, ongoing care, or plant rescue services, we're here to help bring the benefits of living plants to your Atlanta space.</p>
+            <div class="cta-buttons">
+                <a href="tel:404-977-4539" class="btn btn-primary">Call (404) 977-4539</a>
+                <a href="mailto:hello@atlantahouseplants.com" class="btn btn-outline">Email Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📞 (404) 977-4539</p>
+                    <p>✉️ hello@atlantahouseplants.com</p>
+                    <p>📍 Metro Atlanta Area</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <p>Office Plant Design</p>
+                    <p>Recurring Plant Care</p>
+                    <p>Plant Doctor Visits</p>
+                    <p>Corporate Gifting</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Business Hours</h3>
+                    <p>Monday - Friday: 9 AM - 5 PM</p>
+                    <p>24/7 Voice AI Support</p>
+                    <p>Emergency Plant Care Available</p>
+                </div>
+            </div>
+            <p>&copy; 2024 Atlanta Houseplants, LLC. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

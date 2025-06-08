@@ -2,7 +2,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -19,9 +19,9 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         // Atlanta Houseplants custom variants
-        forest: "bg-forest text-white hover:bg-forest-dark transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
-        sage: "bg-sage text-white hover:bg-sage-dark transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
-        earth: "bg-earth text-white hover:bg-earth-dark transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
+        forest: "bg-green-800 text-white hover:bg-green-900 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
+        sage: "bg-green-600 text-white hover:bg-green-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
+        earth: "bg-amber-700 text-white hover:bg-amber-800 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
       },
       size: {
         default: "h-10 px-4 py-2",

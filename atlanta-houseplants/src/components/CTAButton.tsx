@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import React from "react";
+import { Button } from "./ui/button";
+import { cn } from "../lib/utils";
 
 interface CTAButtonProps {
   variant: "primary" | "secondary" | "tertiary";

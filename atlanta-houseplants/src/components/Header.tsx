@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { getContactMethods } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { cn } from "../lib/utils";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { phone } = getContactMethods();
+  const phone = "(404) 977-4539";
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -25,12 +24,12 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-forest rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-green-800 rounded-lg flex items-center justify-center">
               {/* TODO: Replace with actual logo */}
               <span className="text-white font-bold text-xl">🌱</span>
             </div>
             <div className="hidden sm:block">
-              <span className="text-xl font-bold text-forest">Atlanta Houseplants</span>
+              <span className="text-xl font-bold text-green-800">Atlanta Houseplants</span>
               <p className="text-xs text-gray-600">Professional Plant Care</p>
             </div>
           </Link>
@@ -41,7 +40,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-gray-700 hover:text-forest transition-colors duration-200 font-medium"
+                className="text-gray-700 hover:text-green-800 transition-colors duration-200 font-medium"
               >
                 {item.name}
               </Link>
@@ -53,7 +52,7 @@ const Header = () => {
             {/* Phone Number */}
             <a
               href={`tel:${phone}`}
-              className="hidden md:flex items-center space-x-2 text-forest hover:text-forest-dark transition-colors"
+              className="hidden md:flex items-center space-x-2 text-green-800 hover:text-green-900 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -69,7 +68,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-md text-gray-700 hover:text-forest hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2 rounded-md text-gray-700 hover:text-green-800 hover:bg-gray-100 transition-colors"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +93,7 @@ const Header = () => {
                 key={item.name}
                 to={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="block px-4 py-2 text-gray-700 hover:text-forest hover:bg-gray-50 rounded-md transition-colors"
+                className="block px-4 py-2 text-gray-700 hover:text-green-800 hover:bg-gray-50 rounded-md transition-colors"
               >
                 {item.name}
               </Link>
@@ -104,7 +103,7 @@ const Header = () => {
             <div className="px-4 pt-4 space-y-3 border-t border-gray-200">
               <a
                 href={`tel:${phone}`}
-                className="flex items-center space-x-2 text-forest font-semibold"
+                className="flex items-center space-x-2 text-green-800 font-semibold"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
