@@ -69,6 +69,8 @@ export const useChat = () => {
         const responseText = await response.text();
         let aiResponseContent = '';
 
+        console.log('Response from Make.com:', responseText);
+
         // Check if response is empty
         if (!responseText || responseText.trim().length === 0) {
           aiResponseContent = "I'm here to help with your Atlanta real estate questions! Could you please rephrase your question?";
@@ -76,8 +78,25 @@ export const useChat = () => {
           try {
             // Try to parse as JSON first
             const responseData = JSON.parse(responseText);
-            aiResponseContent = responseData.message || responseData.response || responseData.content || responseData.text || responseText;
-          } catch {
+            console.log('Parsed JSON response:', responseData);
+            
+            // Check for different possible response formats
+            if (responseData.message) {
+              aiResponseContent = responseData.message;
+            } else if (responseData.response) {
+              aiResponseContent = responseData.response;
+            } else if (responseData.content) {
+              aiResponseContent = responseData.content;
+            } else if (responseData.text) {
+              aiResponseContent = responseData.text;
+            } else if (typeof responseData === 'string') {
+              aiResponseContent = responseData;
+            } else {
+              // If none of the expected properties are found, stringify the entire object
+              aiResponseContent = JSON.stringify(responseData);
+            }
+          } catch (error) {
+            console.log('Error parsing JSON:', error);
             // If not JSON, use the text directly
             aiResponseContent = responseText;
           }
@@ -96,6 +115,7 @@ export const useChat = () => {
         setIsLoading(false);
 
       } else {
+        console.error(`HTTP Error: ${response.status} ${response.statusText}`);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
     } catch (error) {
