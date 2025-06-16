@@ -40,7 +40,7 @@ export const useChat = () => {
 
     try {
       // Send to Make.com webhook
-      const response = await fetch('https://hook.us1.make.com/5dj7ksgs499clp9qa29hdoql3u6f0rvt', {
+      const response = await fetch('https://hook.us1.make.com/cpweuqa2uji7hpytowfctwgszbsflf8t', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
