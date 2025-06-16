@@ -50,7 +50,7 @@ export const ChatWidget: React.FC = () => {
           <div className="bg-navy text-white p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <img
-                src="/lovable-uploads/a424100c-6f6f-4b29-876e-59201565a0d5.png"
+                src="/images/a424100c-6f6f-4b29-876e-59201565a0d5.png"
                 alt="Ana Wall"
                 className="w-8 h-8 rounded-full object-cover"
               />
@@ -81,7 +81,7 @@ export const ChatWidget: React.FC = () => {
                 <div className="flex items-start space-x-2 max-w-xs lg:max-w-md">
                   <div className="flex-shrink-0">
                     <img
-                      src="/lovable-uploads/a424100c-6f6f-4b29-876e-59201565a0d5.png"
+                      src="/images/a424100c-6f6f-4b29-876e-59201565a0d5.png"
                       alt="Ana Wall"
                       className="w-8 h-8 rounded-full object-cover"
                     />

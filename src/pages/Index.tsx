@@ -20,16 +20,16 @@ const Index = () => {
 
   // Ana's professional photos
   const anaPhotos = {
-    aboutPhoto: "/lovable-uploads/a424100c-6f6f-4b29-876e-59201565a0d5.png", // Clean headshot with white jacket
-    contactPhoto: "/lovable-uploads/631faac4-a98b-4710-b5f3-2596258723fa.png", // Friendly portrait
-    ctaPhoto: "/lovable-uploads/1ade2f13-f281-45e5-a3e2-503845556107.png" // Professional standing pose
+    aboutPhoto: "/images/a424100c-6f6f-4b29-876e-59201565a0d5.png", // Clean headshot with white jacket
+    contactPhoto: "/images/631faac4-a98b-4710-b5f3-2596258723fa.png", // Friendly portrait
+    ctaPhoto: "/images/1ade2f13-f281-45e5-a3e2-503845556107.png" // Professional standing pose
   };
 
   // Testimonial photos from uploaded images
   const testimonialPhotos = {
-    woman1: "/lovable-uploads/72620f36-010d-43fb-ab97-60f5ef33b3f9.png", // Now for Sarah Johnson
-    man: "/lovable-uploads/e4764e71-9c1d-4b7c-bad1-cff478955c68.png",
-    woman2: "/lovable-uploads/53f41a8c-bd2d-4151-ba81-2cbf165425c8.png" // Now for Jennifer Chen
+    woman1: "/images/72620f36-010d-43fb-ab97-60f5ef33b3f9.png", // Now for Sarah Johnson
+    man: "/images/e4764e71-9c1d-4b7c-bad1-cff478955c68.png",
+    woman2: "/images/53f41a8c-bd2d-4151-ba81-2cbf165425c8.png" // Now for Jennifer Chen
   };
 
   // Sample featured properties
