@@ -39,6 +39,8 @@ export const useChat = () => {
     setIsLoading(true);
 
     try {
+      console.log('Sending message to Make.com webhook...');
+      
       // Send to Make.com webhook
       const response = await fetch('https://hook.us1.make.com/cpweuqa2uji7hpytowfctwgszbsflf8t', {
         method: 'POST',
@@ -55,91 +57,158 @@ export const useChat = () => {
         }),
       });
 
-      if (response.ok) {
-        // Update message status to sent
-        setMessages(prev => 
-          prev.map(msg => 
-            msg.id === messageId 
-              ? { ...msg, status: 'sent' as const }
-              : msg
-          )
-        );
-
-        // Get the response from Make.com
-        const responseText = await response.text();
-        let aiResponseContent = '';
-
-        console.log('Response from Make.com:', responseText);
-
-        // Check if response is empty
-        if (!responseText || responseText.trim().length === 0) {
-          aiResponseContent = "I'm here to help with your Atlanta real estate questions! Could you please rephrase your question?";
-        } else {
-          try {
-            // Try to parse as JSON first
-            const responseData = JSON.parse(responseText);
-            console.log('Parsed JSON response:', responseData);
-            
-            // Check for different possible response formats
-            if (responseData.message) {
-              aiResponseContent = responseData.message;
-            } else if (responseData.response) {
-              aiResponseContent = responseData.response;
-            } else if (responseData.content) {
-              aiResponseContent = responseData.content;
-            } else if (responseData.text) {
-              aiResponseContent = responseData.text;
-            } else if (typeof responseData === 'string') {
-              aiResponseContent = responseData;
-            } else {
-              // If none of the expected properties are found, stringify the entire object
-              aiResponseContent = JSON.stringify(responseData);
-            }
-          } catch (error) {
-            console.log('Error parsing JSON:', error);
-            // If not JSON, use the text directly
-            aiResponseContent = responseText;
-          }
-        }
-
-        // Add AI response
-        const aiMessage: ChatMessage = {
-          id: `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          content: aiResponseContent || "I'm here to help with your Atlanta real estate questions!",
-          isUser: false,
-          timestamp: new Date(),
-          status: 'delivered',
-        };
-
-        setMessages(prev => [...prev, aiMessage]);
-        setIsLoading(false);
-
-      } else {
-        console.error(`HTTP Error: ${response.status} ${response.statusText}`);
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error('Chat error:', error);
+      console.log('Response received from Make.com:', response);
+      console.log('Response status:', response.status);
       
-      // Update message status to failed
-      setMessages(prev => 
-        prev.map(msg => 
-          msg.id === messageId 
-            ? { ...msg, status: 'failed' as const }
+      // Update message status to sent regardless of response status
+      setMessages(prev =>
+        prev.map(msg =>
+          msg.id === messageId
+            ? { ...msg, status: 'sent' as const }
             : msg
         )
       );
 
-      // Add error message
-      const errorMessage: ChatMessage = {
-        id: `error_${Date.now()}`,
-        content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment or feel free to contact us via email at ana@atlantahouseplants.com.",
+      // Get the response from Make.com
+      let responseText;
+      try {
+        responseText = await response.text();
+        console.log('Response text from Make.com:', responseText);
+      } catch (textError) {
+        console.error('Error getting response text:', textError);
+        responseText = '';
+      }
+      
+      let aiResponseContent = '';
+
+      // Check if response is empty
+      if (!responseText || responseText.trim().length === 0) {
+        aiResponseContent = "I'm here to help with your Atlanta real estate questions! Could you please rephrase your question?";
+      } else {
+        try {
+          // Try to parse as JSON first
+          let responseData;
+          try {
+            responseData = JSON.parse(responseText);
+            console.log('Parsed JSON response:', responseData);
+          } catch (parseError) {
+            console.log('Response is not valid JSON, using as plain text:', responseText);
+            aiResponseContent = responseText.trim();
+            // Skip the rest of the JSON processing
+            throw new Error('Not JSON');
+          }
+          
+          // Check for different possible response formats
+          if (responseData.message) {
+            aiResponseContent = responseData.message;
+          } else if (responseData.response) {
+            aiResponseContent = responseData.response;
+          } else if (responseData.content) {
+            aiResponseContent = responseData.content;
+          } else if (responseData.text) {
+            aiResponseContent = responseData.text;
+          } else if (typeof responseData === 'string') {
+            aiResponseContent = responseData;
+          } else if (Array.isArray(responseData) && responseData.length > 0) {
+            // Handle array responses
+            const firstItem = responseData[0];
+            if (typeof firstItem === 'string') {
+              aiResponseContent = firstItem;
+            } else if (typeof firstItem === 'object') {
+              // Try to extract content from the first object in the array
+              aiResponseContent = firstItem.message || firstItem.response ||
+                                 firstItem.content || firstItem.text ||
+                                 JSON.stringify(firstItem);
+            } else {
+              aiResponseContent = JSON.stringify(responseData);
+            }
+          } else {
+            // If none of the expected properties are found, stringify the entire object
+            aiResponseContent = JSON.stringify(responseData);
+          }
+        } catch (error) {
+          if (error.message !== 'Not JSON') {
+            console.log('Error processing response:', error);
+            // If not already set as plain text, use the text directly
+            if (!aiResponseContent) {
+              aiResponseContent = responseText.trim();
+            }
+          }
+        }
+      }
+
+      // Add AI response
+      const aiMessage: ChatMessage = {
+        id: `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        content: aiResponseContent || "I'm here to help with your Atlanta real estate questions!",
         isUser: false,
         timestamp: new Date(),
         status: 'delivered',
       };
 
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages(prev => [...prev, aiMessage]);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Chat error:', error);
+      
+      // Try to extract any response that might exist
+      let errorResponseContent = null;
+      
+      if (error.response) {
+        try {
+          const errorText = await error.response.text();
+          console.log('Error response content:', errorText);
+          
+          if (errorText && errorText.trim().length > 0) {
+            try {
+              // Try to parse as JSON
+              const errorData = JSON.parse(errorText);
+              errorResponseContent = errorData.message || errorData.response ||
+                                    errorData.content || errorData.text ||
+                                    JSON.stringify(errorData);
+            } catch (parseError) {
+              // Use as plain text
+              errorResponseContent = errorText.trim();
+            }
+          }
+        } catch (e) {
+          console.error('Failed to extract error response:', e);
+        }
+      }
+      
+      // Update message status to failed
+      setMessages(prev =>
+        prev.map(msg =>
+          msg.id === messageId
+            ? { ...msg, status: 'failed' as const }
+            : msg
+        )
+      );
+
+      // If we have error content, use it instead of the generic error message
+      if (errorResponseContent) {
+        const aiMessage: ChatMessage = {
+          id: `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          content: errorResponseContent,
+          isUser: false,
+          timestamp: new Date(),
+          status: 'delivered',
+        };
+        
+        setMessages(prev => [...prev, aiMessage]);
+      } else {
+        // Add generic error message
+        const errorMessage: ChatMessage = {
+          id: `error_${Date.now()}`,
+          content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment or feel free to contact us via email at ana@atlantahouseplants.com.",
+          isUser: false,
+          timestamp: new Date(),
+          status: 'delivered',
+        };
+        
+        setMessages(prev => [...prev, errorMessage]);
+      }
+      
       setIsLoading(false);
     }
   }, []);
