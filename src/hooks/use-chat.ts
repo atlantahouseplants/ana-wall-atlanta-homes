@@ -113,7 +113,7 @@ export const useChat = () => {
       // Add error message
       const errorMessage: ChatMessage = {
         id: `error_${Date.now()}`,
-        content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment or feel free to contact Ana directly at (404) 934-8516.",
+        content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment or feel free to contact us via email at ana@atlantahouseplants.com.",
         isUser: false,
         timestamp: new Date(),
         status: 'delivered',
